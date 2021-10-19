@@ -1,0 +1,67 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="entry-wrapper">
+        <div id="entry-title">
+            <h3>{{entry.title}}
+            <span id="edit-delete">
+                {% if request.user == entry.user %}
+                    ( <a href="{% url 'edit-entry' entry.id %}">Edit</a>
+                    <a href="{% url 'delete-entry' entry.id %}">Delete</a> )
+                {% endif %}
+            </span>
+            </h3>
+        </div>
+        
+        <div id="entry-info">
+            <span>Source: {{entry.source}} | </span>
+            <span>Topic: {{entry.topic}}</span><br>
+            <span>Last updated: {{entry.updated}} UTC</span><br>
+            <a href="{{entry.link}}">Link to original question</a>
+        </div>
+        <hr>
+        <h5>User Code</h5>
+        <pre>{{entry.user_code}}</pre><br>
+        <h5>Optimized Code</h5>
+        <pre>{{entry.optimized_code}}</pre><br>
+        <h5>User Takeaway</h5>
+        <p>{{entry.user_notes}}</p>
+        <hr>
+    </div>
+    
+    <div class="feedback-wrapper">
+        <h3>Feedback</h3>
+        {% for feedback in feedbacks %}
+        <div>
+            <small><em>{{feedback.user}}</em> - <em>{{feedback.updated|timesince}} ago</em></small>
+            {% if request.user == feedback.user %}
+            <span id="delete-feedback">(<a href="{% url 'delete-feedback' feedback.id %}">Delete</a>)
+            {% endif %}</span>
+            <br>
+            <span>{{feedback.body}}</span>
+            <br>
+            <br>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if request.user.is_authenticated %}
+    <div class="comment-form">
+        <div class="form-group">
+            <form method="POST" action = "" id="takeaway-form">
+                {% csrf_token %}
+                <textarea class="form-control" name="body" placeholder="Submit your feedback for this entry here!" form="takeaway-form" rows="4"></textarea>
+                <br>
+                <input class="submit-button" type="Submit"/>
+            </form>
+        </div>
+        </div>
+        {% else %}
+        <p>[Please log in to submit feedback for this entry!]</p>
+        {% endif %}
+        <br>
+    </div>
+
+
+{% endblock content %}

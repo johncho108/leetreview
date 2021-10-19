@@ -1,0 +1,123 @@
+{% extends 'main.html' %}
+    
+    {% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-3 d-none d-sm-block">
+                <form id="searchBar" method="GET" action="{% url 'feed' %}">
+                    <input type="text" name="q" placeholder="Search..." />
+                </form>
+                <div id="hello d-none d-sm-block">
+                    {% if user.is_authenticated %}
+                    <h4>Hello @{{request.user}}!</h4>
+                    {% endif %}
+                </div>
+            
+
+                <div class="browseBy d-none d-sm-block">
+                    <h5>Browse by Source</h5>
+                    <a href="{% url 'feed' %}">All</a>
+                    {% for source in sources %} 
+                        <div>
+                            <a href="{% url 'feed' %}?q={{source.1}}">{{source.1}}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="browseBy d-none d-sm-block">
+                    <h5>Browse by Topic</h5>
+                    <a href="{% url 'feed' %}">All</a>
+                    {% for topic in topics %} 
+                        <div>
+                            <a href="{% url 'feed' %}?q={{topic.1}}">{{topic.1}}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+             <div class="col-sm-6 col-md-8 col-lg-9 d-none d-sm-block entriesList">
+                <small><em>Number of Entries: {{entries_count}}</em></small>
+                {% for entry in entries %}
+                <div>
+                    <h5><a href="{% url 'entry' entry.id %}">{{entry.title}}</a></h5>
+                    <span>Source: {{entry.source}} | </span>
+                    <span>Topic: {{entry.topic}}</span><br>
+                    <span>User: {{entry.user.username}} | </span>
+                    <span>Last updated: {{entry.updated}} UTC</span><br>
+                    
+                    
+                    <hr>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class='container d-block d-sm-none'>
+        <div class="row">
+            <div class="col">
+                <form id="searchBar" method="GET" action="{% url 'feed' %}">
+                    <input type="text" name="q" placeholder="Search..." />
+                </form>
+            </div>
+            <div class="row">
+                <div id="hello">
+                    {% if user.is_authenticated %}
+                    <h4>Hello @{{request.user}}!</h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Browse by Source
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                    <li><a href="{% url 'feed' %}">All</a></li>
+                    {% for source in sources %} 
+                        <div>
+                            <li><a href="{% url 'feed' %}?q={{source.1}}">{{source.1}}</a></li>
+                        </div>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Browse by Topic
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                    <li><a href="{% url 'feed' %}">All</a></li>
+                    {% for topic in topics %} 
+                        <div>
+                            <li><a href="{% url 'feed' %}?q={{topic.1}}">{{topic.1}}</a></li>
+                        </div>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <small><em>Number of Entries: {{entries_count}}</em></small>
+            {% for entry in entries %}
+            <div>
+                <h5><a href="{% url 'entry' entry.id %}">{{entry.title}}</a></h5>
+                <span>Source: {{entry.source}} | </span>
+                <span>Topic: {{entry.topic}}</span><br>
+                <span>User: {{entry.user.username}} | </span>
+                <span>Last updated: {{entry.updated}} UTC</span><br>
+                
+                
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endblock content %}
+
