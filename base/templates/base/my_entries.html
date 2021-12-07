@@ -4,6 +4,7 @@
     {% block content %}
     <div class="container">
         {% if entries|length == 0 %}
+            <br><br>
             <h5>No entries yet! Click "New Entry" to get started!</h5>
         {% endif %}
         {% for entry in entries %}
