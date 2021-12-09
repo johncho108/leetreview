@@ -12,7 +12,7 @@
                 <h5><a href="{% url 'entry' entry.id %}">{{entry.title}}</a></h5>
                 <span>Source: {{entry.source}} | </span>
                 <span>Topic: {{entry.topic}}</span><br>
-                <span>Last updated: {{entry.updated}}</span>
+                <span>Last updated: {{entry.updated}} UTC</span>
                 <hr>
             </div>
         {% endfor %}
